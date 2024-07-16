@@ -1,6 +1,7 @@
 import path from "path";
 import Job from "../types/job";
-import { readCsv } from "../utilities/csvReader.util";
+import { readCsv } from "../utils/csvReader.util";
+import { parseJobDto } from "../utils/parsers/jobDto.parser";
 
 export class JobRepository {
   sourceFile: string;
@@ -10,6 +11,6 @@ export class JobRepository {
   }
 
   public async getJobs() {
-    return await readCsv<Job>(this.sourceFile);
+    return await readCsv<Job>(this.sourceFile, parseJobDto);
   }
 }

@@ -1,17 +1,16 @@
 import fs from "fs";
 import { parse, Options } from "csv-parse";
+import { DtoParser } from "../types/utils/dtoParser";
 
-const makeCsvParser = (options?: Options) => {
-  const parseOptions = {
+const makeCsvParser = (options?: Options) =>
+  parse({
     columns: true,
     ...options,
-  };
-
-  return parse(parseOptions);
-};
+  });
 
 export const readCsv = async <T>(
   filePath: string,
+  dtoParser?: DtoParser<T>,
   options?: Options
 ): Promise<T[]> => {
   const records: T[] = [];
@@ -28,9 +27,8 @@ export const readCsv = async <T>(
     });
 
   for await (const record of parser) {
-    records.push(record as T);
+    records.push(dtoParser ? dtoParser(record) : record)
   }
 
   return records;
 };
-

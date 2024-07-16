@@ -8,6 +8,7 @@ interface Job {
   averageCostPerPage: number;
   createdAt: Date;
   completedAt?: Date;
+  providerId: number;
   providerRating?: JobProviderRatingValue;
   locationType: LocationType;
   latitude?: number;
