@@ -8,13 +8,13 @@ export class JobController {
     this.jobService = new JobService();
   }
 
-  public getJobs = (__: Request, res: Response) => {
-    const jobs = this.jobService.getJobs();
+  public getJobs = async (__: Request, res: Response) => {
+    const jobs = await this.jobService.getJobs();
     return res.status(200).json({ jobs });
   };
 
-  public getUpcomingJobs = (__: Request, res: Response) => {
-    const upcomingJobs = this.jobService.getUpcomingJobs();
+  public getUpcomingJobs = async (__: Request, res: Response) => {
+    const upcomingJobs = await this.jobService.getUpcomingJobs();
     res.status(200).json({ upcomingJobs });
   };
 }

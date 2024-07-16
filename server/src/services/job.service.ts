@@ -1,9 +1,18 @@
+import { JobRepository } from "../repositories/job.repository";
+
 export class JobService {
-  public getJobs() {
-    return ['job1', 'job2'];
+  private jobRepository: JobRepository;
+
+  public constructor() {
+    this.jobRepository = new JobRepository();
   }
 
-  public getUpcomingJobs() {
-    return ['upcomingJob1', 'upcomingJob2'];
+  public async getJobs() {
+    return await this.jobRepository.getJobs();
+  }
+
+  public async getUpcomingJobs() {
+    const jobs = await this.jobRepository.getJobs();
+    return jobs.filter((job) => job.status !== "COMPLETE");
   }
 }
