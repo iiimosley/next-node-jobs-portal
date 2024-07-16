@@ -1,24 +1,33 @@
 import fs from "fs";
 import { parse, Options } from "csv-parse";
-import { CsvParser } from "../types/utils/dtoParser";
+import { CsvTypeParser } from "../types/utils/csvTypeParser";
+import { transform } from "stream-transform";
+import { RawCsvRecord } from "../types/utils/rawCsvRecord";
 
-const makeCsvParser = (options?: Options) =>
+const makeCsvFileParser = (options?: Options) =>
   parse({
     columns: true,
     ...options,
   });
 
+const makeCsvTransformer = <T>(typeParser?: CsvTypeParser<T>) =>
+  transform<RawCsvRecord, T>((record) =>
+    typeParser ? typeParser(record) : (record as T)
+  );
+
 export const readCsv = async <T>(
   filePath: string,
-  dtoParser?: CsvParser<T>,
+  csvTypeParser?: CsvTypeParser<T>,
   options?: Options
 ): Promise<T[]> => {
   const records: T[] = [];
-  const csvParser = makeCsvParser(options);
+  const csvFileParser = makeCsvFileParser(options);
+  const csvTransformer = makeCsvTransformer(csvTypeParser);
 
   const parser = fs
     .createReadStream(filePath, { encoding: "utf-8" })
-    .pipe(csvParser)
+    .pipe(csvFileParser)
+    .pipe(csvTransformer)
     .on("end", () => {
       console.info(`Finished reading from ${filePath}`);
     })
@@ -27,7 +36,7 @@ export const readCsv = async <T>(
     });
 
   for await (const record of parser) {
-    records.push(dtoParser ? dtoParser(record) : record)
+    records.push(record)
   }
 
   return records;
