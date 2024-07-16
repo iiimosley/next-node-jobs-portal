@@ -1,6 +1,6 @@
 import fs from "fs";
 import { parse, Options } from "csv-parse";
-import { DtoParser } from "../types/utils/dtoParser";
+import { CsvParser } from "../types/utils/dtoParser";
 
 const makeCsvParser = (options?: Options) =>
   parse({
@@ -10,7 +10,7 @@ const makeCsvParser = (options?: Options) =>
 
 export const readCsv = async <T>(
   filePath: string,
-  dtoParser?: DtoParser<T>,
+  dtoParser?: CsvParser<T>,
   options?: Options
 ): Promise<T[]> => {
   const records: T[] = [];

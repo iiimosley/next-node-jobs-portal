@@ -1,0 +1,1 @@
+export type RawCsvRecord = Record<string, string>;

@@ -1,1 +1,3 @@
-export type DtoParser<T> = (dto: Record<string, unknown>) => T;
+import { RawCsvRecord } from "./rawCsvRecord";
+
+export type CsvParser<T> = (dto: RawCsvRecord) => T;
