@@ -1,5 +1,5 @@
 import express from 'express';
-import PingRouter from './routes/ping';
+import AppRouter from './routes';
 
 export class App {
     private app: express.Application;
@@ -8,8 +8,7 @@ export class App {
     constructor(port: number) {
         this.app = express();
         this.port = port;
-
-        this.app.use(PingRouter);
+        this.app.use(AppRouter);
     }
 
     listen() {
