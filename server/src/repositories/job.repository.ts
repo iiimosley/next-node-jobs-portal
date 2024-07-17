@@ -1,5 +1,5 @@
 import path from "path";
-import Job from "../types/job";
+import Job from "../types/domains/job/job";
 import { readCsv } from "../utils/csvReader.util";
 import { parseJobDto } from "../utils/parsers/jobDto.parser";
 
