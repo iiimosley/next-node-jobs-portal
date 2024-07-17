@@ -2,8 +2,9 @@ import Job from "../../types/domains/job/job";
 import { JobProviderRatingValue } from "../../types/domains/job/jobProviderRating";
 import { JobStatusValue } from "../../types/domains/job/jobStatus";
 import { LocationTypeValue } from "../../types/domains/job/locationType";
+import { RawCsvRecord } from "../../types/utils/rawCsvRecord";
 
-export const parseJobDto = (jobDto: Record<string, unknown>): Job => ({
+export const parseJob = (jobDto: RawCsvRecord): Job => ({
   id: parseInt(jobDto.id as string, 10),
   status: jobDto.status as JobStatusValue,
   averageCostPerPage: jobDto.avg_cost_per_page
