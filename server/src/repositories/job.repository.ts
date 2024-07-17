@@ -13,4 +13,9 @@ export class JobRepository {
   public async getJobs() {
     return await readCsv<Job>(this.sourceFile, parseJob);
   }
+
+  public async getUpcomingJobs() {
+    const jobs = await this.getJobs();
+    return jobs.filter(({ status }) => status === "SCHEDULED");
+  }
 }

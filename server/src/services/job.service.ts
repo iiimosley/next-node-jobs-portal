@@ -12,7 +12,6 @@ export class JobService {
   }
 
   public async getUpcomingJobs() {
-    const jobs = await this.jobRepository.getJobs();
-    return jobs.filter(({ status }) => status === "SCHEDULED");
+    return await this.jobRepository.getUpcomingJobs();
   }
 }
