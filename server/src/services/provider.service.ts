@@ -5,25 +5,50 @@ export class ProviderService {
   constructor(
     private providerRepository: ProviderRepository = new ProviderRepository()
   ) {}
-  
+
+  // if DB-based repository - would join jobs into providers query vs composing through method arguments
   async getProviderJobScores(jobs: Job[]) {
     const providers = await this.providerRepository.getProviders();
-    
-    // Computations to determine provider job scores:
-    // speed = job end time - job start time
-    // cost (total cost/total jobs)
-    // rating (total score/total jobs)
-    // 
-    // extra credit:
-    // completion count
-    // distance traveled (job lat/long - provider lat/long = distance)
-    // remote score (remote jobs completed/total jobs)
 
-    return providers.map((provider) => ({
-      ...provider,
-      jobs: jobs
-        .filter(({ providerId }) => providerId === provider.id)
-        .map(({ providerId, ...job }) => job),
-    }));
+    return providers.map((provider) => {
+      const providerJobs = jobs.filter(
+        ({ providerId }) => providerId === provider.id
+      );
+      const completedJobs = providerJobs.filter(
+        ({ status, createdAt, completedAt }) =>
+          status === "COMPLETE" &&
+          completedAt !== undefined &&
+          createdAt !== undefined
+      );
+      const pricedJobs = providerJobs.filter(
+        ({ averageCostPerPage }) => averageCostPerPage !== undefined
+      );
+      const ratedJobs = providerJobs.filter(
+        ({ providerRating }) => providerRating !== undefined
+      );
+
+      return {
+        ...provider,
+        speed: !!completedJobs.length
+          ? completedJobs.reduce(
+              (acc, { completedAt, createdAt }) =>
+                acc + (completedAt!.getTime() - createdAt.getTime()),
+              0
+            ) / completedJobs.length
+          : undefined, // TODO: determine timespan formatting
+        cost: !!pricedJobs.length
+          ? pricedJobs.reduce(
+              (acc, { averageCostPerPage }) => acc + averageCostPerPage!,
+              0
+            ) / pricedJobs.length
+          : undefined,
+        rating: !!ratedJobs.length
+          ? (ratedJobs.reduce(
+              (acc, { providerRating }) => acc + providerRating!,
+              0
+            ) / ratedJobs.length) * 100
+          : undefined,
+      };
+    });
   }
 }

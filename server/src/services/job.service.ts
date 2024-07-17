@@ -12,14 +12,19 @@ export class JobService {
   }
 
   public async getUpcomingJobsWithAvailableProviders() {
+    // This jobs query would occur as join on Providers in DB-based repository
+    // pulling all jobs for now as they will be reused for filtering scheduled jobs
     const jobs = await this.getJobs();
-    const upcomingJobs = jobs.filter(({ status }) => status === "SCHEDULED");
-
     const providerJobScores = await this.providerService.getProviderJobScores(jobs);
+    
+    const upcomingJobs = jobs.filter(({ status }) => status === "SCHEDULED").map((job) => ({
+     ...job,
+      providers: providerJobScores.map((provider) => ({
+        ...provider,
+        proximity: Math.random() * 100, // TODO: implement proximity calculation
+      })), 
+    }));
 
-    // Further score computations:
-    // proximity (provider lat/long - job lat/long = distance; lower is better)
-
-    return { upcomingJobs, providerJobScores};
+    return upcomingJobs;
   }
 }
