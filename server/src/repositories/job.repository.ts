@@ -1,6 +1,6 @@
 import path from "path";
 import Job from "../types/domains/job";
-import { readCsv } from "../utils/csvReader.util";
+import { readCsv } from "../utils/csvReader";
 import { parseJob } from "./transforms/parseJob";
 
 export class JobRepository {
