@@ -1,5 +1,5 @@
 import path from "path";
-import { readCsv } from "../utils/csvReader";
+import { readCsv } from "../utils/streams/csvReader";
 import { CsvTransformer } from "../types/utils/csvTransformer";
 
 export abstract class Repository<T> {

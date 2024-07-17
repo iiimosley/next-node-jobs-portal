@@ -1,8 +1,8 @@
 import { ProviderRepository } from "../repositories/provider.repository";
 import { JobStateMachine } from "../states/job.state";
 import Job from "../types/domains/job";
-import { reduceAverage } from "../utils/reduceAverage";
-import { reduceAveragePercentage } from "../utils/reduceAveragePercentage";
+import { reduceAverage } from "../utils/computations/reduceAverage";
+import { reduceAveragePercentage } from "../utils/computations/reduceAveragePercentage";
 
 export class ProviderService {
   constructor(

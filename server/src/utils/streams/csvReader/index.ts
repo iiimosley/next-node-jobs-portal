@@ -1,6 +1,6 @@
 import fs from "fs";
 import { Options } from "csv-parse";
-import { CsvTransformer } from "../../types/utils/csvTransformer";
+import { CsvTransformer } from "../../../types/utils/csvTransformer";
 import { initializeCsvFileParser } from "./pipes/parser.pipe";
 import { initializeCsvFileTransformer } from "./pipes/transformer.pipe";
 

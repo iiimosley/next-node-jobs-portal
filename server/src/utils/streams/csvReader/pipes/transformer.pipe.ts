@@ -1,6 +1,6 @@
 import { transform } from "stream-transform";
-import { CsvTransformer } from "../../../types/utils/csvTransformer";
-import { RawCsvRecord } from "../../../types/utils/rawCsvRecord";
+import { CsvTransformer } from "../../../../types/utils/csvTransformer";
+import { RawCsvRecord } from "../../../../types/utils/rawCsvRecord";
 
 export const initializeCsvFileTransformer = <T>(
   transformer: CsvTransformer<T>,
