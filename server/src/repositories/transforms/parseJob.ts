@@ -4,26 +4,26 @@ import { JobStatusValue } from "../../types/domains/job/jobStatus";
 import { LocationTypeValue } from "../../types/domains/job/locationType";
 import { RawCsvRecord } from "../../types/utils/rawCsvRecord";
 
-export const parseJob = (jobDto: RawCsvRecord): Job => ({
-  id: parseInt(jobDto.id as string, 10),
-  status: jobDto.status as JobStatusValue,
-  averageCostPerPage: jobDto.avg_cost_per_page
-    ? parseInt(jobDto.avg_cost_per_page as string, 10)
+export const parseJob = (record: RawCsvRecord): Job => ({
+  id: parseInt(record.id, 10),
+  status: record.status as JobStatusValue,
+  averageCostPerPage: record.avg_cost_per_page
+    ? parseInt(record.avg_cost_per_page, 10)
     : undefined,
-  providerId: jobDto.provider_id
-    ? parseInt(jobDto.provider_id as string, 10)
+  providerId: record.provider_id
+    ? parseInt(record.provider_id, 10)
     : undefined,
-  providerRating: jobDto.provider_rating ? parseInt(
-    jobDto.provider_rating as string,
+  providerRating: record.provider_rating ? parseInt(
+    record.provider_rating,
     10
   ) as JobProviderRatingValue : undefined,
-  createdAt: new Date(jobDto.datetime as string),
-  completedAt: jobDto.materials_turned_in_at
-    ? new Date(jobDto.materials_turned_in_at as string)
+  createdAt: new Date(record.datetime),
+  completedAt: record.materials_turned_in_at
+    ? new Date(record.materials_turned_in_at)
     : undefined,
-  locationType: jobDto.location_type as LocationTypeValue,
-  latitude: jobDto.latitude ? parseFloat(jobDto.latitude as string) : undefined,
-  longitude: jobDto.longitude
-    ? parseFloat(jobDto.longitude as string)
+  locationType: record.location_type as LocationTypeValue,
+  latitude: record.latitude ? parseFloat(record.latitude) : undefined,
+  longitude: record.longitude
+    ? parseFloat(record.longitude)
     : undefined,
 });
