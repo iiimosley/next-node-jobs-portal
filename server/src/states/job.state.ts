@@ -1,6 +1,8 @@
 import Job from "../types/domains/job";
 import { JobProviderRatingValue } from "../types/domains/job/jobProviderRating";
 
+type JobStatePredicate<T> = (job: Job) => job is T extends Job ? T : never;
+
 export interface CompletedJob extends Job {
   status: "COMPLETE";
   completedAt: Date;
@@ -19,25 +21,29 @@ export class JobStateMachine {
 
   get completedJobs(): CompletedJob[] {
     return this.castToPredicate<CompletedJob>(
-      ({status, completedAt}) => status === "COMPLETE" && completedAt !== undefined,
+      (job: Job): job is CompletedJob =>
+        job.status === "COMPLETE" && job.completedAt !== undefined,
     );
   }
 
   get pricedJobs(): PricedJob[] {
     return this.castToPredicate<PricedJob>(
-      ({averageCostPerPage}) => averageCostPerPage !== undefined,
+      (job: Job): job is PricedJob => 
+        job.averageCostPerPage !== undefined,
     );
   }
 
   get ratedJobs(): RatedJob[] {
     return this.castToPredicate<RatedJob>(
-      ({providerRating}) => providerRating !== undefined,
+      (job: Job): job is RatedJob =>
+        job.providerRating !== undefined,
     );
   }
 
-  private castToPredicate<T>(predicate: (job: Job) => boolean): T[] {
-    return this.jobs.reduce<T[]>((acc, job) => {
-      return predicate(job) ? [...acc, job as T] : acc;
-    }, []);
+  private castToPredicate<T>(predicate: JobStatePredicate<T>): T[] {
+    return this.jobs.reduce<T[]>(
+      (acc, job) => (predicate(job) ? [...acc, job] : acc),
+      []
+    );
   }
 }
