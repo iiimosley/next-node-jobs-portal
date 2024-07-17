@@ -14,7 +14,7 @@ export class JobController {
   };
 
   public getUpcomingJobs = async (__: Request, res: Response) => {
-    const upcomingJobs = await this.jobService.getUpcomingJobs();
-    res.status(200).json({ upcomingJobs });
+    const upcomingJobs = await this.jobService.getUpcomingJobsWithAvailableProviders();
+    res.status(200).json(upcomingJobs);
   };
 }

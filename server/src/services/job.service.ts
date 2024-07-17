@@ -1,20 +1,25 @@
 import { JobRepository } from "../repositories/job.repository";
-import { ProviderRepository } from "../repositories/provider.repository";
+import { ProviderService } from "./provider.service";
 
 export class JobService {
-  private jobRepository: JobRepository;
-  private providerRepository: ProviderRepository;
-
-  public constructor() {
-    this.jobRepository = new JobRepository();
-    this.providerRepository = new ProviderRepository();
-  }
+  public constructor(
+    private jobRepository: JobRepository = new JobRepository(),
+    private providerService: ProviderService = new ProviderService()
+  ) {}
 
   public async getJobs() {
     return await this.jobRepository.getJobs();
   }
 
-  public async getUpcomingJobs() {
-    return await this.jobRepository.getUpcomingJobs();
+  public async getUpcomingJobsWithAvailableProviders() {
+    const jobs = await this.getJobs();
+    const upcomingJobs = jobs.filter(({ status }) => status === "SCHEDULED");
+
+    const providerJobScores = await this.providerService.getProviderJobScores(jobs);
+
+    // Further score computations:
+    // proximity (provider lat/long - job lat/long = distance; lower is better)
+
+    return { upcomingJobs, providerJobScores};
   }
 }

@@ -11,7 +11,7 @@ export class JobRepository extends Repository<Job> {
     return await this.readCsv(parseJob);
   }
 
-  public async getUpcomingJobs() {
+  public async getScheduledJobs() {
     const jobs = await this.getJobs();
     return jobs.filter(({ status }) => status === "SCHEDULED");
   }
