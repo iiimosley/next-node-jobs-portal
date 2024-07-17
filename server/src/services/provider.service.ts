@@ -1,6 +1,13 @@
 import { ProviderRepository } from "../repositories/provider.repository";
+import { CompletedJob, JobStateMachine, PricedJob, RatedJob } from "../states/job.state";
 import Job from "../types/domains/job";
 
+
+const assertCompletedJob = (job: Job): asserts job is CompletedJob => {
+  if (job.status !== "COMPLETE" || job.completedAt !== undefined) {
+    throw new Error("Not a Completed Job");
+  };
+}
 export class ProviderService {
   constructor(
     private providerRepository: ProviderRepository = new ProviderRepository()
@@ -14,17 +21,9 @@ export class ProviderService {
       const providerJobs = jobs.filter(
         ({ providerId }) => providerId === provider.id
       );
-      const completedJobs = providerJobs.filter(
-        ({ status, createdAt, completedAt }) =>
-          status === "COMPLETE" &&
-          completedAt !== undefined &&
-          createdAt !== undefined
-      );
-      const pricedJobs = providerJobs.filter(
-        ({ averageCostPerPage }) => averageCostPerPage !== undefined
-      );
-      const ratedJobs = providerJobs.filter(
-        ({ providerRating }) => providerRating !== undefined
+
+      const { completedJobs, pricedJobs, ratedJobs } = new JobStateMachine(
+        providerJobs
       );
 
       return {
@@ -32,19 +31,19 @@ export class ProviderService {
         speed: !!completedJobs.length
           ? completedJobs.reduce(
               (acc, { completedAt, createdAt }) =>
-                acc + (completedAt!.getTime() - createdAt.getTime()),
+                acc + (completedAt.getTime() - createdAt.getTime()),
               0
             ) / completedJobs.length
           : undefined, // TODO: determine timespan formatting
         cost: !!pricedJobs.length
           ? pricedJobs.reduce(
-              (acc, { averageCostPerPage }) => acc + averageCostPerPage!,
+              (acc, { averageCostPerPage }) => acc + averageCostPerPage,
               0
             ) / pricedJobs.length
           : undefined,
         rating: !!ratedJobs.length
           ? (ratedJobs.reduce(
-              (acc, { providerRating }) => acc + providerRating!,
+              (acc, { providerRating }) => acc + providerRating,
               0
             ) / ratedJobs.length) * 100
           : undefined,
