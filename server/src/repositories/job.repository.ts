@@ -1,17 +1,14 @@
-import path from "path";
 import Job from "../types/domains/job";
-import { readCsv } from "../utils/csvReader";
 import { parseJob } from "./transforms/parseJob";
+import { Repository } from "./abstract.repository";
 
-export class JobRepository {
-  sourceFile: string;
-
+export class JobRepository extends Repository<Job> {
   public constructor() {
-    this.sourceFile = path.join(__dirname, "data", "jobs.csv");
+    super("jobs.csv");
   }
 
   public async getJobs() {
-    return await readCsv<Job>(this.sourceFile, parseJob);
+    return await this.readCsv(parseJob);
   }
 
   public async getUpcomingJobs() {

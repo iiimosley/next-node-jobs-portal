@@ -1,16 +1,13 @@
-import path from "path";
-import { readCsv } from "../utils/csvReader";
-import { parseProvider } from "./transforms/parseProvider";
 import Provider from "../types/domains/provider";
+import { parseProvider } from "./transforms/parseProvider";
+import { Repository } from "./abstract.repository";
 
-export class ProviderRepository {
-  sourceFile: string;
-
+export class ProviderRepository extends Repository<Provider> {
   public constructor() {
-    this.sourceFile = path.join(__dirname, "data", "providers.csv");
+    super("providers.csv");
   }
 
   public async getProviders() {
-    return await readCsv<Provider>(this.sourceFile, parseProvider);
+    return await this.readCsv(parseProvider);
   }
 }
