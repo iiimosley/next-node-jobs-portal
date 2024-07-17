@@ -3,6 +3,7 @@ import { JobProviderRatingValue } from "../../types/domains/job/jobProviderRatin
 import { JobStatusValue } from "../../types/domains/job/jobStatus";
 import { LocationTypeValue } from "../../types/domains/job/locationType";
 import { RawCsvRecord } from "../../types/utils/rawCsvRecord";
+import { parseGeolocation } from "./parseGeolocation";
 
 export const parseJob = (record: RawCsvRecord): Job => ({
   id: parseInt(record.id, 10),
@@ -22,8 +23,5 @@ export const parseJob = (record: RawCsvRecord): Job => ({
     ? new Date(record.materials_turned_in_at)
     : undefined,
   locationType: record.location_type as LocationTypeValue,
-  latitude: record.latitude ? parseFloat(record.latitude) : undefined,
-  longitude: record.longitude
-    ? parseFloat(record.longitude)
-    : undefined,
+  ...parseGeolocation(record),
 });
