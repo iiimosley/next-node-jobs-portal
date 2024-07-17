@@ -1,4 +1,4 @@
-import Job from "../../types/domains/job/job";
+import Job from "../../types/domains/job";
 import { JobProviderRatingValue } from "../../types/domains/job/jobProviderRating";
 import { JobStatusValue } from "../../types/domains/job/jobStatus";
 import { LocationTypeValue } from "../../types/domains/job/locationType";
