@@ -41,9 +41,6 @@ export class JobStateMachine {
   }
 
   private castToPredicate<T>(predicate: JobStatePredicate<T>): T[] {
-    return this.jobs.reduce<T[]>(
-      (acc, job) => (predicate(job) ? [...acc, job] : acc),
-      []
-    );
+    return this.jobs.filter(predicate);
   }
 }
