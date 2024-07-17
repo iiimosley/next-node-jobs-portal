@@ -4,7 +4,7 @@ export default function LinkBlocksContainer({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
+    <div className="mb-32 flex flex-col flex-nowrap items-center text-center lg:flex-row lg:flex-wrap lg:items-start lg:justify-around lg:text-left">
       {children}
     </div>
   );

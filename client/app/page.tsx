@@ -10,7 +10,7 @@ export default function Home() {
       <LinkBlocksContainer>
         <LinkBlock
           title="Upcoming Jobs"
-          description="Find upcoming jobs and available providers."
+          description={"Find upcoming jobs and available providers."}
           href="/jobs/upcoming"
         />
         <LinkBlock
