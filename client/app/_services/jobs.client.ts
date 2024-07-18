@@ -1,7 +1,7 @@
 import UpcomingJob from "@lib/types/job/upcomingJob";
 import UrlPath from "@lib/types/urlPath";
 
-export class JobsClient {
+class JobsClient {
   private baseUrl: string;
 
   constructor() {
@@ -23,3 +23,5 @@ export class JobsClient {
     return response.json() as Promise<T>;
   }
 }
+
+export default JobsClient;

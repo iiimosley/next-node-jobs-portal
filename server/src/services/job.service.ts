@@ -19,7 +19,7 @@ export class JobService {
     
     const upcomingJobs = jobs.filter(({ status }) => status === "SCHEDULED").map((job) => ({
      ...job,
-      providers: providerJobScores.map((provider) => ({
+      availableProviders: providerJobScores.map((provider) => ({
         ...provider,
         proximity: Math.random() * 100, // TODO: implement proximity calculation
       })), 
