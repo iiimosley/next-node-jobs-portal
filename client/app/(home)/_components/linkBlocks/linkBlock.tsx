@@ -1,3 +1,22 @@
+import Link from "next/link";
+
+const LinkOrAnchor = ({
+  className,
+  children,
+  href,
+}: {
+  className: string;
+  children: React.ReactNode;
+  href?: string;
+}) =>
+  href !== undefined ? (
+    <Link href={href} className={className}>
+      {children}
+    </Link>
+  ) : (
+    <div className={className}>{children}</div>
+  );
+
 export default function LinkBlock({
   title,
   description,
@@ -13,10 +32,9 @@ export default function LinkBlock({
   disabled = !disabled && href === undefined;
 
   return (
-    <a
+    <LinkOrAnchor
       href={href}
       className="group rounded-lg border border-transparent self-stretch mt-4 lg:mt-8 px-10 py-7 w-80 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-      rel="noopener noreferrer"
     >
       <div>
         <h2 className="mx-auto mb-3 text-2xl font-semibold">
@@ -29,6 +47,6 @@ export default function LinkBlock({
         </h2>
         <p className="m-0 max-w-[30ch] text-sm opacity-50">{description}</p>
       </div>
-    </a>
+    </LinkOrAnchor>
   );
 }
