@@ -15,6 +15,7 @@ export default function Home() {
         <LinkBlock
           title="Coming Soon!"
           description="New features are on the way."
+          className="cursor-party"
         />
       </LinkBlocksContainer>
     </>

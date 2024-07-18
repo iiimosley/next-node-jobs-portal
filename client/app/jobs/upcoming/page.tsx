@@ -9,9 +9,11 @@ export default async function UpcomingJobs() {
   return (
     <>
       <HomeRedirectHeader />
-      {jobs.map((job) => (
-        <UpcomingJobListing job={job} />
-      ))}
+      <div className="mt-8">
+        {jobs.map((job) => (
+          <UpcomingJobListing key={`upcoming-job-${job.id}`} job={job} />
+        ))}
+      </div>
     </>
   );
 }
