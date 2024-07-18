@@ -1,27 +1,16 @@
 import HomeRedirectHeader from "../../_components/headers/homeRedirect";
+import { JobsClient } from "../../_services/jobs.client";
 import JobListing from "../_components/jobListing";
 
-export default function UpcomingJobs() {
-  const jobs = [
-    {
-      status: "Awaiting Materials",
-      date: "2021-12-01",
-    },
-    {
-      status: "Completed",
-      date: "2021-12-02",
-    },
-    {
-      status: "Scheduled",
-      date: "2021-12-03",
-    },
-  ];
+export default async function UpcomingJobs() {
+  const jobsClient = new JobsClient();
+  const jobs = await jobsClient.getUpcomingJobs();
 
   return (
     <>
       <HomeRedirectHeader />
-      {jobs.map(({ status, date }) => (
-        <JobListing status={status} date={date} />
+      {jobs.map(({ status, createdAt, completedAt }) => (
+        <JobListing status={status} date={completedAt ?? createdAt} />
       ))}
     </>
   );
