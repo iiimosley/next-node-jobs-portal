@@ -1,6 +1,6 @@
-import HomeRedirectHeader from "../../_components/headers/homeRedirect";
-import { JobsClient } from "../../_services/jobs.client";
-import JobListing from "../_components/jobListing";
+import HomeRedirectHeader from "@components/headers/homeRedirect";
+import { JobsClient } from "@services/jobs.client";
+import JobListing from "../components/jobListing";
 
 export default async function UpcomingJobs() {
   const jobsClient = new JobsClient();

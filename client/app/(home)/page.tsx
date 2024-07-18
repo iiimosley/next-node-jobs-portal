@@ -1,6 +1,6 @@
-import Header from "../_components/headers/base";
-import LinkBlocksContainer from "./_components/linkBlocks/container";
-import LinkBlock from "./_components/linkBlocks/linkBlock";
+import Header from "@components/headers/base";
+import LinkBlocksContainer from "./components/linkBlocks/container";
+import LinkBlock from "./components/linkBlocks/linkBlock";
 
 export default function Home() {
   return (

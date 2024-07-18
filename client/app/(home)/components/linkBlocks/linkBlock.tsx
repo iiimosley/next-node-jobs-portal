@@ -1,4 +1,4 @@
-import LinkPartial from "../../../_components/linkPartial";
+import LinkPartial from "@components/linkPartial";
 
 export default function LinkBlock({
   title,

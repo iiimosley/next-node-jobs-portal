@@ -1,5 +1,5 @@
-import Job from "../_lib/types/job";
-import UrlPath from "../_lib/types/urlPath";
+import Job from "@lib/types/job";
+import UrlPath from "@lib/types/urlPath";
 
 export class JobsClient {
   private baseUrl: string;
