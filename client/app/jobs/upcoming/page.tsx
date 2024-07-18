@@ -1,3 +1,4 @@
+import HomeRedirectHeader from "../../_components/headers/homeRedirect";
 import JobListing from "../_components/jobListing";
 
 export default function UpcomingJobs() {
@@ -17,10 +18,11 @@ export default function UpcomingJobs() {
   ];
 
   return (
-    <div>
+    <>
+      <HomeRedirectHeader />
       {jobs.map(({ status, date }) => (
         <JobListing status={status} date={date} />
       ))}
-    </div>
+    </>
   );
 }

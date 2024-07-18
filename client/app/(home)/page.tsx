@@ -1,12 +1,11 @@
-import Header from "./_components/header";
+import Header from "../_components/headers/base";
 import LinkBlocksContainer from "./_components/linkBlocks/container";
 import LinkBlock from "./_components/linkBlocks/linkBlock";
-import Main from "./_components/main";
 
 export default function Home() {
   return (
-    <Main>
-      <Header />
+    <>
+      <Header title="Job Portal" />
       <LinkBlocksContainer>
         <LinkBlock
           title="Upcoming Jobs"
@@ -18,6 +17,6 @@ export default function Home() {
           description="New features are on the way."
         />
       </LinkBlocksContainer>
-    </Main>
+    </>
   );
 }
