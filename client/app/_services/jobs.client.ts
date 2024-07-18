@@ -1,4 +1,4 @@
-import Job from "@lib/types/job";
+import UpcomingJob from "@lib/types/job/upcomingJob";
 import UrlPath from "@lib/types/urlPath";
 
 export class JobsClient {
@@ -10,7 +10,7 @@ export class JobsClient {
   }
 
   async getUpcomingJobs() {
-    return await this.fetch<Job[]>("/jobs/upcoming");
+    return await this.fetch<UpcomingJob[]>("/jobs/upcoming");
   }
 
   private async fetch<T>(path: UrlPath) {

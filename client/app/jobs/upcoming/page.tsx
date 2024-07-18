@@ -9,8 +9,8 @@ export default async function UpcomingJobs() {
   return (
     <>
       <HomeRedirectHeader />
-      {jobs.map(({ status, createdAt, completedAt }) => (
-        <JobListing status={status} date={completedAt ?? createdAt} />
+      {jobs.map(({ status, createdAt }) => (
+        <JobListing status={status} date={createdAt} />
       ))}
     </>
   );
