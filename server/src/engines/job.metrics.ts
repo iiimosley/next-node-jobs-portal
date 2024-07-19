@@ -5,8 +5,9 @@ import {
 } from "../utils/computations/reduceAverage";
 import { JobStateMachine } from "./job.state";
 
-// TODO: migrate to abstract parent class: MetricsEngine<T> 
-//       union inheritance with JobStateMachine: JobStateMachine & MetricsEngine<T>
+// TODO: - migrate to abstract parent class: MetricsEngine<T> 
+//       - place computeJobMetric in MetricsEngine
+//       - union inheritance with JobStateMachine: JobStateMachine & MetricsEngine<T>
 //       🔍 Can I get <T> from JobStateMachine instead of redeclaring on MetricsEngine<T>?
 //       💭 Is inheriting the JobStateMachine mudding SoC? Should StateMachine instantiated on construction?
 export class JobMetricsEngine extends JobStateMachine {
@@ -23,14 +24,14 @@ export class JobMetricsEngine extends JobStateMachine {
   }
 
   get cost() {
-    return reduceAverage(
+    return computeJobMetric(
       this.pricedJobs,
       (acc, { averageCostPerPage }) => acc + averageCostPerPage
     );
   }
 
   get rating() {
-    return reduceAverage(
+    return computeJobMetric(
       this.ratedJobs,
       (acc, { providerRating }) => acc + providerRating
     );
