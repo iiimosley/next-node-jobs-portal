@@ -1,3 +1,4 @@
+import { JobMetricsEngine } from "../engines/job.metrics";
 import { JobRepository } from "../repositories/job.repository";
 import { ProviderService } from "./provider.service";
 
@@ -41,9 +42,10 @@ export class JobService {
    * EG: SELECT * FROM job_metrics ORDER BY updated_at DESC LIMIT 1;
    */
   public async getLatestJobMetrics() {
-    return await this.jobRepository.getJobs();
+    const { speed, cost, rating } = new JobMetricsEngine(await this.getJobs());
 
     
+
 
   }
 }

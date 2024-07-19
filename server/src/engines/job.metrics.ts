@@ -1,5 +1,8 @@
 import Job from "../types/domains/job";
-import { reduceAverage } from "../utils/computations/reduceAverage";
+import { computeJobMetric } from "../utils/computations/computeAverageMetric";
+import {
+  reduceAverage,
+} from "../utils/computations/reduceAverage";
 import { JobStateMachine } from "./job.state";
 
 export class JobMetricsEngine extends JobStateMachine {
@@ -8,7 +11,7 @@ export class JobMetricsEngine extends JobStateMachine {
   }
 
   get speed() {
-    return reduceAverage(
+    return computeJobMetric(
       this.completedJobs,
       (acc, { completedAt, createdAt }) =>
         acc + (completedAt.getTime() - createdAt.getTime())
