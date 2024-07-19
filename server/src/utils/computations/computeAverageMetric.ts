@@ -1,10 +1,5 @@
+import { AverageMetric } from "../../types/metrics/averageMetric";
 import { type ReduceAveragePredicate, reduceAverage } from "./reduceAverage";
-
-export interface AverageMetric {
-  average: number;
-  high: number;
-  low: number;
-}
 
 export const computeJobMetric = <T>(
   scopedJobs: T[],

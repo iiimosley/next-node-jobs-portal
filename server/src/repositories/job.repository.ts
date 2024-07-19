@@ -23,4 +23,11 @@ export class JobRepository extends Repository<Job> {
   public async getJobById(id: number) {
     return (await this.getJobs()).find((job) => job.id === id);
   }
+
+  /** select * from jobs where providerId IN (:providerIds) */
+  public async getJobsByProviderIds(providerIds: number[]) {
+    return (await this.getJobs()).filter((job) =>
+      job.providerId !== undefined && providerIds.includes(job.providerId)
+    );
+  }
 }
