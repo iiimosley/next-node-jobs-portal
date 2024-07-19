@@ -15,10 +15,10 @@ export default function UpcomingJobListing({
         <div className="lg:inline">{job.createdAt}</div>
       </div>
       <div className="collapse-content">
-        <div className="py-1 px-8">
-          <div className="mx-auto text-center">
+        <div className="py-1 px-2 lg:px-8">
+          <div className="mx-auto mb-2 text-center">
             <Link
-              className="italic link-hover font-semibold size-2 decoration-4 text-sky-300 decoration-sky-600"
+              className="italic decoration-none lg:decoration-inherit link-hover font-semibold size-2 decoration-4 text-sky-300 decoration-sky-600"
               href={`/jobs/upcoming/${job.id}`}
             >
               View Available Providers
