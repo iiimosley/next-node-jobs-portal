@@ -5,6 +5,10 @@ import {
 } from "../utils/computations/reduceAverage";
 import { JobStateMachine } from "./job.state";
 
+// TODO: migrate to abstract parent class: MetricsEngine<T> 
+//       union inheritance with JobStateMachine: JobStateMachine & MetricsEngine<T>
+//       🔍 Can I get <T> from JobStateMachine instead of redeclaring on MetricsEngine<T>?
+//       💭 Is inheriting the JobStateMachine mudding SoC? Should StateMachine instantiated on construction?
 export class JobMetricsEngine extends JobStateMachine {
   constructor(jobs: Job[]) {
     super(jobs);
