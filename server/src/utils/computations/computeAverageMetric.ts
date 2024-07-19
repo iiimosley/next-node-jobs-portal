@@ -7,11 +7,11 @@ export const computeJobMetric = <T>(
   mapPredicate: MapMetricPredicate<T>,
 ): AverageMetric => {
   const computedMetrics = scopedJobs.map(mapPredicate);
-  const average = reduceAverage(computedMetrics);
 
+  // TODO: Normalize output in handling empty metrics
   return {
-    average,
-    high: 10,
-    low: 0,
+    average: reduceAverage(computedMetrics),
+    high: Math.max(...computedMetrics),
+    low: Math.min(...computedMetrics),
   };
 };

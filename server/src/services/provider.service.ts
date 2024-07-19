@@ -14,7 +14,7 @@ export class ProviderService {
 
     return providers.map(({ relatedJobs, ...provider }) => ({
       ...provider,
-      ...(new JobMetricsEngine(relatedJobs)).totalMetrics,
+      score: (new JobMetricsEngine(relatedJobs)).totalMetrics,
     }));
   }
 }
