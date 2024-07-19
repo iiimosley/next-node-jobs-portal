@@ -1,11 +1,13 @@
 import { AverageMetric } from "../../types/metrics/averageMetric";
-import { type ReduceAveragePredicate, reduceAverage } from "./reduceAverage";
+import { MapMetricPredicate } from "../../types/utils/mapMetricPredicate";
+import { reduceAverage } from "./reduceAverage";
 
 export const computeJobMetric = <T>(
   scopedJobs: T[],
-  predicate: ReduceAveragePredicate<T>
+  mapPredicate: MapMetricPredicate<T>,
 ): AverageMetric => {
-  const average = reduceAverage(scopedJobs, predicate);
+  const computedMetrics = scopedJobs.map(mapPredicate);
+  const average = reduceAverage(computedMetrics);
 
   return {
     average,

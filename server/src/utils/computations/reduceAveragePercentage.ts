@@ -1,6 +1,6 @@
-export const reduceAveragePercentage = <T>(
-  arr: T[],
-  reducer: (acc: number, val: T) => number,
+import { reduceAverage } from "./reduceAverage";
+
+export const reduceAveragePercentage = (
+  terms: number[],
   initialValue: number = 0
-): number =>
-  arr.length && (arr.reduce(reducer, initialValue) / arr.length) * 100;
+): number => reduceAverage(terms, initialValue) * 100;
