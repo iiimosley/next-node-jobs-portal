@@ -1,4 +1,4 @@
-export interface Geolocated {
+export interface Locatable {
   latitude: number;
   longitude: number;
 }

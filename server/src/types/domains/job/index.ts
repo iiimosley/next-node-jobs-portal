@@ -1,9 +1,9 @@
-import { Geolocated } from "../shared/geolocated";
+import { Locatable } from "../shared/locatable";
 import { JobProviderRatingValue } from "./jobProviderRating";
 import { JobStatusValue } from "./jobStatus";
 import { LocationTypeValue } from "./locationType";
 
-interface Job extends Partial<Geolocated> {
+interface Job extends Partial<Locatable> {
   id: number;
   status: JobStatusValue;
   averageCostPerPage?: number;

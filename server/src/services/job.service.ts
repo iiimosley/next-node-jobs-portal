@@ -1,4 +1,7 @@
 import { JobRepository } from "../repositories/job.repository";
+import Job from "../types/domains/job";
+import Provider from "../types/domains/provider";
+import { computeHaversineFormulaPercentage } from "../utils/computations/haversineFormulaPercentage";
 import { ProviderService } from "./provider.service";
 
 export class JobService {
@@ -26,8 +29,27 @@ export class JobService {
       ...job,
       availableProviders: providerJobScores.map((provider) => ({
         ...provider,
-        proximity: Math.random() * 100, // TODO: implement proximity calculation
+        score:{
+          ...provider.score,
+          proximity: this.computeProximityScore(job, provider),
+        }
       })),
     };
+  }
+
+  private computeProximityScore(
+    { latitude: jobLatitude, longitude: jobLongitude, locationType }: Job,
+    { latitude: providerLatitude, longitude: providerLongitude }: Provider
+  ): number {
+    return locationType !== "LOCATION_BASED" ||
+      jobLatitude === undefined ||
+      jobLongitude === undefined ||
+      providerLatitude === undefined ||
+      providerLongitude === undefined
+      ? 0
+      : computeHaversineFormulaPercentage(
+          { latitude: jobLatitude, longitude: jobLongitude },
+          { latitude: providerLatitude, longitude: providerLongitude }
+        );
   }
 }
