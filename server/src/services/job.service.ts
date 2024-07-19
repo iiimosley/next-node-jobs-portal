@@ -1,6 +1,4 @@
-import { JobMetricsEngine } from "../engines/job.metrics";
 import { JobRepository } from "../repositories/job.repository";
-import { JobMetricsRepository } from "../repositories/jobMetrics.repository";
 import { ProviderService } from "./provider.service";
 
 export class JobService {
