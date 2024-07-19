@@ -8,11 +8,19 @@ export class JobRepository extends Repository<Job> {
   }
 
   public async getJobs() {
+    //select * from jobs
     return await this.readCsv(parseJob);
   }
 
   public async getScheduledJobs() {
-    const jobs = await this.getJobs();
-    return jobs.filter(({ status }) => status === "SCHEDULED");
+    // select * from jobs where status = 'SCHEDULED'
+    return (await this.getJobs()).filter(
+      ({ status }) => status === "SCHEDULED"
+    );
+  }
+
+  public async getJobById(id: number) {
+    // select * from jobs where id = :id
+    return (await this.getJobs()).find((job) => job.id === id);
   }
 }
