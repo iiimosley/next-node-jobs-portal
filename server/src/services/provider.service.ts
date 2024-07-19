@@ -2,6 +2,8 @@ import { JobMetricsEngine } from "../engines/job.metrics";
 import { ProviderRepository } from "../repositories/provider.repository";
 import { JobMetricsRepository } from "../repositories/jobMetrics.repository";
 import { ProviderWithMetrics } from "../types/domains/provider/providerWithMetrics";
+import { computeMetricPercentage } from "../utils/computations/computeMetricPercentage";
+import { ProviderWithScore } from "../types/domains/provider/providerWithScore";
 
 export class ProviderService {
   constructor(
@@ -16,12 +18,27 @@ export class ProviderService {
       metrics: new JobMetricsEngine(relatedJobs).totalMetrics,
     }));
 
-    return providerMetrics;
+    return await this.computeProviderScores(providerMetrics);
   }
 
   private async computeProviderScores(providers: ProviderWithMetrics[]) {
-    // TODO: Leverage historical job metrics against provider metrics to determine score
-    const jobMetrics = await this.jobMetricsRepository.getLatestJobMetrics();
+    const {
+      speed: compositeSpeed,
+      cost: compositeCost,
+      rating: compositeRating,
+    } = await this.jobMetricsRepository.getLatestJobMetrics();
 
+    return providers.map<ProviderWithScore>(({metrics, ...provider}) => {
+      const { speed, cost, rating } = metrics;
+
+      return {
+        ...provider,
+        score: {
+          speed: computeMetricPercentage(compositeSpeed, speed),
+          cost: computeMetricPercentage(compositeCost, cost),
+          rating: computeMetricPercentage(compositeRating, rating),
+        },
+      };
+    });
   }
 }
