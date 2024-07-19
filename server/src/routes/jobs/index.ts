@@ -6,6 +6,6 @@ const { getJobs, getUpcomingJobs, getJobById} = new JobController();
 
 router.get("/jobs", getJobs);
 router.get("/jobs/upcoming", getUpcomingJobs);
-router.get("/jobs/:id", getJobById);
+router.get("/jobs/:id", getJobById); //TODO: Implement request validation middleware
 
 export default router;

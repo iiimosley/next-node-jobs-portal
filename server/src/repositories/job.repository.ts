@@ -8,7 +8,7 @@ export class JobRepository extends Repository<Job> {
   }
 
   public async getJobs() {
-    //select * from jobs
+    // select * from jobs
     return await this.readCsv(parseJob);
   }
 

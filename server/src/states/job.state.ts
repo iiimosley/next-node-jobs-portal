@@ -16,6 +16,7 @@ export interface RatedJob extends Job {
   providerRating: JobProviderRatingValue;
 }
 
+/** Filters, asserts, and casts Jobs to defined child state types */
 export class JobStateMachine {
   constructor(private jobs: Job[]) {}
 
@@ -41,6 +42,6 @@ export class JobStateMachine {
   }
 
   private castToPredicate<T>(predicate: JobStatePredicate<T>): T[] {
-    return this.jobs.filter(predicate);
+    return this.jobs.filter(predicate); // 🔍 How is `never` _really_ handled in boolean coalescing?
   }
 }

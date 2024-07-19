@@ -19,8 +19,6 @@ export class JobService {
     const job = await this.jobRepository.getJobById(jobId);
     if (job === undefined) return undefined;
 
-    // This jobs query would occur as join on Providers in DB-based repository
-    // pulling all jobs for now as they will be reused for filtering scheduled jobs
     const providerJobScores = await this.providerService.getProviderJobScores(
       await this.getJobs()
     );

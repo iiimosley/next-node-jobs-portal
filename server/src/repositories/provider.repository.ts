@@ -8,6 +8,7 @@ export class ProviderRepository extends Repository<Provider> {
   }
 
   public async getProviders() {
+    // select * from providers
     return await this.readCsv(parseProvider);
   }
 }

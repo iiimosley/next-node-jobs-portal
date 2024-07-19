@@ -1,5 +1,5 @@
 import { Request } from 'express'
 
-export class JobByIdRequest extends Request {
+export interface JobByIdRequest extends Request {
   id: number;
 }

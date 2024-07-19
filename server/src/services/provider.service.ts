@@ -9,8 +9,12 @@ export class ProviderService {
     private providerRepository: ProviderRepository = new ProviderRepository()
   ) {}
 
-  // if DB-based repository - would join jobs into providers query vs composing through method arguments
   async getProviderJobScores(jobs: Job[]) {
+    /** 💭 Refactor Thought: Get Providers as specified in jobs 
+     * select provider.*, jobs.* from provider
+     * join jobs on provider.id = jobs.providerId 
+     * where provider.id in ({jobs.map(({ providerId }) => providerId)}) 
+     */
     const providers = await this.providerRepository.getProviders();
 
     return providers.map((provider) => {

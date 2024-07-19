@@ -22,8 +22,8 @@ export class JobController {
     { params: { id: idParam } }: Request,
     res: Response
   ) => {
+    // TODO: Abstract request parsing to validation middleware
     const id = parseInt(idParam, 10);
-
     if (isNaN(id))
       return res.status(400).json({ error: "Job ID must be a number" });
 
