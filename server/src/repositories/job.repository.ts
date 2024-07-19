@@ -7,20 +7,20 @@ export class JobRepository extends Repository<Job> {
     super("jobs.csv");
   }
 
+  /** select * from jobs */
   public async getJobs() {
-    // select * from jobs
     return await this.readCsv(parseJob);
   }
 
+  /** select * from jobs where status = 'SCHEDULED' */
   public async getScheduledJobs() {
-    // select * from jobs where status = 'SCHEDULED'
     return (await this.getJobs()).filter(
       ({ status }) => status === "SCHEDULED"
     );
   }
 
+  /** select * from jobs where id = :id */
   public async getJobById(id: number) {
-    // select * from jobs where id = :id
     return (await this.getJobs()).find((job) => job.id === id);
   }
 }

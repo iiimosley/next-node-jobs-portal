@@ -1,8 +1,9 @@
 import { ProviderRepository } from "../repositories/provider.repository";
-import { JobStateMachine } from "../states/job.state";
+import { JobStateMachine } from "../engines/job.state";
 import Job from "../types/domains/job";
 import { reduceAverage } from "../utils/computations/reduceAverage";
 import { reduceAveragePercentage } from "../utils/computations/reduceAveragePercentage";
+import { JobMetricsEngine } from "../engines/job.metrics";
 
 export class ProviderService {
   constructor(
@@ -18,25 +19,15 @@ export class ProviderService {
     const providers = await this.providerRepository.getProviders();
 
     return providers.map((provider) => {
-      const { completedJobs, pricedJobs, ratedJobs } = new JobStateMachine(
+      const { speed, cost, rating } = new JobMetricsEngine(
         jobs.filter(({ providerId }) => providerId === provider.id)
       );
 
       return {
         ...provider,
-        speed: reduceAverage(
-          completedJobs,
-          (acc, { completedAt, createdAt }) =>
-            acc + (completedAt.getTime() - createdAt.getTime())
-        ),
-        cost: reduceAverage(
-          pricedJobs,
-          (acc, { averageCostPerPage }) => acc + averageCostPerPage
-        ),
-        rating: reduceAveragePercentage(
-          ratedJobs,
-          (acc, { providerRating }) => acc + providerRating
-        ),
+        speed,
+        cost,
+        rating,
       };
     });
   }
