@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "@components/headers/base";
+import InlineCenterContainer from "@components/inlineCenterContainer";
 import JobsClient from "@services/jobs.client";
 import JobDetails from "@/jobs/components/details";
 import List from "@/_components/list";
@@ -13,17 +14,14 @@ export default async function UpcomingJob({
   if (isNaN(jobId)) return null;
 
   const jobsClient = new JobsClient();
-  const jobs = await jobsClient.getUpcomingJobs();
-
-  const job = jobs.find(({ id }) => jobId === id);
+  const job = await jobsClient.getJobById(jobId);
 
   return !!job ? (
     <div>
       <Header title="<- Back to Upcoming Job Listings" href="/jobs/upcoming" />
-      {/* <div className="mt-8 mx-auto flex flex-col content-center"> */}
-      <div className="flex justify-center">
-        <div className="mt-8 inline-block *:mb-12">
-          <JobDetails job={job} />
+      <InlineCenterContainer className="mt-8 *:mb-12">
+        <JobDetails job={job} />
+        {job.availableProviders !== undefined && (
           <List
             numbered
             title="Available Providers"
@@ -33,8 +31,8 @@ export default async function UpcomingJob({
               <li key={`provider-${provider.id}`}>{provider.name}</li>
             ))}
           </List>
-        </div>
-      </div>
+        )}
+      </InlineCenterContainer>
     </div>
   ) : null;
 }

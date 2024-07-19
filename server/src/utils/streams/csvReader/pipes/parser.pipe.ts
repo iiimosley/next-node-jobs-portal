@@ -6,7 +6,7 @@ export const initializeCsvFileParser = (fileName: string, options?: Options) =>
     ...options,
   })
     .on("end", () => {
-      console.info(`Finished reading from ${fileName}`);
+      console.info(`${new Date().toISOString()} - Finished reading from ${fileName}`);
     })
     .on("error", ({ message }) => {
       console.error(message);

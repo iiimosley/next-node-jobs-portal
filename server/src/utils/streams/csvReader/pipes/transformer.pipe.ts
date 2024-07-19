@@ -8,7 +8,9 @@ export const initializeCsvFileTransformer = <T>(
 ) =>
   transform<RawCsvRecord, T>((record) => transformer(record))
     .on("end", () => {
-      console.info(`Finished transforms on ${fileName}`);
+      console.info(
+        `${new Date().toISOString()} - Finished transforms on ${fileName}`
+      );
     })
     .on("error", ({ message }) => {
       console.error(message);

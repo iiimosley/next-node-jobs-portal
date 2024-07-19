@@ -1,3 +1,4 @@
+import Job from "@lib/types/job";
 import UpcomingJob from "@lib/types/job/upcomingJob";
 import UrlPath from "@lib/types/urlPath";
 
@@ -13,9 +14,13 @@ class JobsClient {
     return await this.fetch<UpcomingJob[]>("/jobs/upcoming");
   }
 
+  async getJobById(id: number) {
+    return await this.fetch<Job>(`/jobs/${id}`);
+  }
+
   private async fetch<T>(path: UrlPath) {
     const response = await fetch(`${this.baseUrl}${path}`);
-    
+
     if (!response.ok) {
       throw new Error(`Failed to fetch: ${response.statusText}`);
     }
