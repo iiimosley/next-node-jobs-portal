@@ -19,7 +19,9 @@ class JobsClient {
   }
 
   private async fetch<T>(path: UrlPath) {
-    const response = await fetch(`${this.baseUrl}${path}`);
+    const response = await fetch(`${this.baseUrl}${path}`, {
+      cache: "no-cache",
+    });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch: ${response.statusText}`);

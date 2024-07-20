@@ -1,4 +1,4 @@
-import JobProvider from "./jobProvider";
+import JobProvider from "../provider";
 
 interface Job {
   id: number;

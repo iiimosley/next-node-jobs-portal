@@ -1,10 +1,9 @@
+import ProviderScore from "./providerScore";
+
 interface JobProvider {
   id: number;
   name: string;
-  proximity: number;
-  speed?: number
-  cost?: number;
-  rating?: number;
+  score: ProviderScore;
 }
 
 export default JobProvider;

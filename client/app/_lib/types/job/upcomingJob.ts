@@ -1,5 +1,5 @@
 import Job from ".";
-import JobProvider from "./jobProvider";
+import JobProvider from "../provider";
 
 interface UpcomingJob extends Job {
   availableProviders: JobProvider[];
