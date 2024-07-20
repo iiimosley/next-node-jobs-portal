@@ -1,7 +1,8 @@
 import { JobRepository } from "../repositories/job.repository";
 import Job from "../types/domains/job";
+import { JobWithScoredProviders } from "../types/domains/job/jobWithScoredProviders";
 import Provider from "../types/domains/provider";
-import { computeHaversineFormulaPercentage } from "../utils/computations/haversineFormulaPercentage";
+import { calculateHaversineFormulaPercentage } from "../utils/computations/calculateHaversineFormulaPercentage";
 import { ProviderService } from "./provider.service";
 
 export class JobService {
@@ -18,7 +19,7 @@ export class JobService {
     return await this.jobRepository.getScheduledJobs();
   }
 
-  public async getJobById(jobId: number) {
+  public async getJobById(jobId: number): Promise<JobWithScoredProviders | undefined> {
     const job = await this.jobRepository.getJobById(jobId);
     if (job === undefined) return undefined;
 
@@ -31,25 +32,25 @@ export class JobService {
         ...provider,
         score:{
           ...provider.score,
-          proximity: this.computeProximityScore(job, provider),
+          proximity: this.calculateProximityScore(job, provider),
         }
       })),
     };
   }
 
-  private computeProximityScore(
-    { latitude: jobLatitude, longitude: jobLongitude, locationType }: Job,
-    { latitude: providerLatitude, longitude: providerLongitude }: Provider
+  private calculateProximityScore(
+    job: Job,
+    provider: Provider
   ): number {
-    return locationType !== "LOCATION_BASED" ||
-      jobLatitude === undefined ||
-      jobLongitude === undefined ||
-      providerLatitude === undefined ||
-      providerLongitude === undefined
+    return job.locationType !== "LOCATION_BASED" ||
+      job.latitude === undefined ||
+      job.longitude === undefined ||
+      provider.latitude === undefined ||
+      provider.longitude === undefined
       ? 0
-      : computeHaversineFormulaPercentage(
-          { latitude: jobLatitude, longitude: jobLongitude },
-          { latitude: providerLatitude, longitude: providerLongitude }
+      : calculateHaversineFormulaPercentage(
+          { latitude: job.latitude, longitude: job.longitude },
+          { latitude: provider.latitude, longitude: provider.longitude }
         );
   }
 }

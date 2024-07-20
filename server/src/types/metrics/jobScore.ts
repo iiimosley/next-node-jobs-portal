@@ -1,4 +1,4 @@
-export interface AverageJobScore {
+export interface JobScore {
   speed: number;
   cost: number;
   rating: number;

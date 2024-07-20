@@ -1,6 +1,6 @@
 import Provider from ".";
-import { AverageJobScore } from "../../metrics/averageJobScore";
+import { JobScore } from "../../metrics/jobScore";
 
-export interface ProviderWithScore extends Provider {
-  score: AverageJobScore;
+export interface ProviderWithJobScore extends Provider {
+  score: JobScore;
 }

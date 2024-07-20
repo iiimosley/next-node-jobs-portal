@@ -1,8 +1,8 @@
-import { AverageMetric } from "../../types/metrics/averageMetric";
+import { AverageRangeMetric } from "../../types/metrics/averageRangeMetric";
 
-export const computeMetricPercentage = (
-  composite: AverageMetric,
-  target: AverageMetric
+export const calculateAverageRangeScore = (
+  composite: AverageRangeMetric,
+  target: AverageRangeMetric
 ): number => {
   const { high: compositeHigh, low: compositeLow } = composite;
   const { average: targetAverage } = target;

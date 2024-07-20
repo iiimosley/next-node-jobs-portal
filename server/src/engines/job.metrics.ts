@@ -1,6 +1,6 @@
 import Job from "../types/domains/job";
-import { AverageJobMetrics } from "../types/metrics/averageJobMetrics";
-import { computeJobMetric } from "../utils/computations/computeAverageMetric";
+import { JobMetrics } from "../types/metrics/jobMetrics";
+import { calculateAverageRangeMetric } from "../utils/computations/calculateAverageRangeMetric";
 import { JobStateMachine } from "./job.state";
 
 // TODO: - migrate to abstract parent class: MetricsEngine<T>
@@ -15,7 +15,7 @@ export class JobMetricsEngine extends JobStateMachine {
   }
 
   get speed() {
-    return computeJobMetric(
+    return calculateAverageRangeMetric(
       this.completedJobs,
       ({ completedAt, createdAt }) =>
         completedAt.getTime() - createdAt.getTime()
@@ -23,20 +23,20 @@ export class JobMetricsEngine extends JobStateMachine {
   }
 
   get cost() {
-    return computeJobMetric(
+    return calculateAverageRangeMetric(
       this.pricedJobs,
       ({ averageCostPerPage }) => averageCostPerPage
     );
   }
 
   get rating() {
-    return computeJobMetric(
+    return calculateAverageRangeMetric(
       this.ratedJobs,
       ({ providerRating }) => providerRating
     );
   }
 
-  get totalMetrics(): AverageJobMetrics {
+  get totalMetrics(): JobMetrics {
     return {
       speed: this.speed,
       cost: this.cost,

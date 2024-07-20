@@ -1,11 +1,11 @@
-import { AverageMetric } from "../../types/metrics/averageMetric";
+import { AverageRangeMetric } from "../../types/metrics/averageRangeMetric";
 import { MapMetricPredicate } from "../../types/utils/mapMetricPredicate";
 import { reduceAverage } from "./reduceAverage";
 
-export const computeJobMetric = <T>(
+export const calculateAverageRangeMetric = <T>(
   scopedJobs: T[],
   mapPredicate: MapMetricPredicate<T>,
-): AverageMetric => {
+): AverageRangeMetric => {
   const computedMetrics = scopedJobs.map(mapPredicate);
 
   // TODO: Normalize output in handling empty metrics
