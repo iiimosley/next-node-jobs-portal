@@ -1,3 +1,5 @@
+// Hashmap of score adjustments per point buy, 
+// staying within the bounds of 1 and 100 for non-zero scores
 export const POINT_ADJUSTMENTS = {
   1: (score: number) => Math.max(score * 0.5, score > 0 ? 1 : 0),
   2: (score: number) => Math.max(score * 0.75, score > 0 ? 1 : 0),

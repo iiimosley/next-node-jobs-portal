@@ -5,6 +5,7 @@ import { JobWithScoredProviders } from "../types/domains/job/jobWithScoredProvid
 import Provider from "../types/domains/provider";
 import { calculateHaversineFormulaPercentage } from "../utils/computations/calculateHaversineFormulaPercentage";
 import { recalculateScoreByWeight } from "../utils/computations/recalculateScoreByWeight";
+import { reduceAveragePercentage } from "../utils/computations/reduceAveragePercentage";
 import { ProviderService } from "./provider.service";
 
 export class JobService {
@@ -41,13 +42,22 @@ export class JobService {
     // TODO: Decompose into more readable chunks vs nested transforms
     return {
       ...job,
-      availableProviders: providerJobScores.map((provider) => ({
-        ...provider,
-        score: recalculateScoreByWeight({
-          ...provider.score,
-          proximity: this.calculateProximityScore(job, provider),
-        }, BASE_JOB_SCORE_WEIGHT),
-      })),
+      availableProviders: providerJobScores
+        .map((provider) => ({
+          ...provider,
+          score: recalculateScoreByWeight(
+            {
+              ...provider.score,
+              proximity: this.calculateProximityScore(job, provider),
+            },
+            BASE_JOB_SCORE_WEIGHT
+          ),
+        }))
+        .sort(
+          (a, b) =>
+            reduceAveragePercentage(Object.values(b.score)) -
+            reduceAveragePercentage(Object.values(a.score))
+        ),
     };
   }
 
