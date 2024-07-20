@@ -36,8 +36,8 @@ export class ProviderService {
       return {
         ...provider,
         score: {
-          speed: calculateAverageRangeScore(speedAggregate, speed),
-          cost: calculateAverageRangeScore(costAggregate, cost),
+          speed: calculateAverageRangeScore(speedAggregate, speed, true),
+          cost: calculateAverageRangeScore(costAggregate, cost, true),
           rating: calculateAverageRangeScore(ratingAggregate, rating),
         },
       };

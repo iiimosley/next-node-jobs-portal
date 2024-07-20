@@ -18,7 +18,7 @@ export class JobMetricsEngine extends JobStateMachine {
     return calculateAverageRangeMetric(
       this.completedJobs,
       ({ completedAt, createdAt }) =>
-        completedAt.getTime() - createdAt.getTime()
+        completedAt.getTime() - createdAt.getTime(),
     );
   }
 

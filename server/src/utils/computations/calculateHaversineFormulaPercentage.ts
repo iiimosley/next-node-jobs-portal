@@ -4,9 +4,9 @@ import { Locatable } from "../../types/domains/shared/locatable";
 // Or that I fully translated this formula to TypeScript from scratch
 //
 // The formula calculates the shortest distance between two points on a sphere
-// as the distance formula (√(x2 - x1)^2 + (y2 - y1)^2) doesn't account for the curvature of the Earth
+// as the distance formula (√(x2 - x1)^2 + (y2 - y1)^2) doesn't account for the curvature of the Earth (or whichever spherical planet you're navigating)
 //
-// Maybe overkill for an approximation metric, but who am I to question science?
+// Maybe overkill for an approximation metric, but who am I to argue with science?
 //
 // more details on JS implementation: https://www.movable-type.co.uk/scripts/latlong.html
 
