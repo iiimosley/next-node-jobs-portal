@@ -19,20 +19,13 @@ export class JobController {
   };
 
   public getJobById = async (
-    { params: { id: idParam } }: Request,
+    { params: { id } }: Request,   // TODO: figure out transform via validation middleware
     res: Response
   ) => {
-    // TODO: Abstract request parsing to validation middleware
-    const id = parseInt(idParam, 10);
-    if (isNaN(id))
-      return res.status(400).json({ error: "Job ID must be a number" });
+    const job = await this.jobService.getJobById(+id);
 
-    const job = await this.jobService.getJobById(id);
-
-    if (!job) {
-      return res.status(404).json({ error: `Job #${id} not found` });
-    }
-
-    return res.status(200).json(job);
+    return job !== undefined
+      ? res.status(200).json(job)
+      : res.status(404).json({ error: `Job #${id} not found` });
   };
 }
