@@ -25,8 +25,12 @@ const parseWeight = (weightRequest: JobScoreWeightRequest): JobScoreWeight =>
   Object.entries(weightRequest).reduce((weight, [key, value]) => {
     if (typeof value !== "string") return weight;
 
-    const point = parseNumeric(value);
-    if (isNaN(point)) return weight;
+    const int = parseNumeric(value);
+    if (isNaN(int)) return weight;
 
-    return { ...weight, [key]: point as Point };
+    // ensure point is between 1 and 5
+    // TODO: pull min and max values from Point type
+    const point = Math.min(5, Math.max(1, int)) as Point;
+
+    return { ...weight, [key]: point };
   }, BASE_JOB_SCORE_WEIGHT);
