@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { JobController } from "../../controllers/job.controller";
-import { validateGetJobRequest } from "../../middleware/validateGetJobRequest";
+import { validateGetJobRequest } from "../../middleware/validate.get.job.request";
 
 const router = Router();
 const { getJobs, getUpcomingJobs, getJobById } = new JobController();

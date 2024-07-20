@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { JobService } from "../services/job.service";
+import { parseGetJobRequest } from "../utils/transforms/requests/parse.get.job.request";
 
 export class JobController {
   private jobService: JobService;
@@ -19,13 +20,14 @@ export class JobController {
   };
 
   public getJobById = async (
-    { params: { id } }: Request,   // TODO: figure out transform via validation middleware
+    req: Request,
     res: Response
   ) => {
-    const job = await this.jobService.getJobById(+id);
+    const jobRequest = parseGetJobRequest(req); // TODO: figure out how to transform via validation middleware
+    const job = await this.jobService.getJobById(jobRequest);
 
     return job !== undefined
       ? res.status(200).json(job)
-      : res.status(404).json({ error: `Job #${id} not found` });
+      : res.status(404).json({ error: `Job not found` });
   };
 }

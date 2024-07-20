@@ -1,4 +1,5 @@
 import express from 'express';
+import { json, urlencoded } from "body-parser";
 import AppRouter from './routes';
 
 export class App {
@@ -8,6 +9,10 @@ export class App {
     constructor(port: number) {
         this.app = express();
         this.port = port;
+
+        this.app.use(json());
+        this.app.use(urlencoded({ extended: true }));
+        
         this.app.use(AppRouter);
     }
 

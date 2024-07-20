@@ -1,7 +1,6 @@
-import { JobScoreProximal } from "../types/metrics/jobScoreProximal";
-import { Weight } from "../types/metrics/weight";
+import { JobScoreWeight } from "../types/metrics/jobScoreWeight";
 
-export const BASE_JOB_SCORE_WEIGHT: Weight<JobScoreProximal> = {
+export const BASE_JOB_SCORE_WEIGHT: JobScoreWeight = {
   speed: 3,
   cost: 3,
   rating: 3,
