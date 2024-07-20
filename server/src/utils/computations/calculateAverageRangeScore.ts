@@ -1,13 +1,13 @@
 import { AverageRangeMetric } from "../../types/metrics/averageRangeMetric";
 
 export const calculateAverageRangeScore = (
-  composite: AverageRangeMetric,
+  aggregate: AverageRangeMetric,
   target: AverageRangeMetric
 ): number => {
-  const { high: compositeHigh, low: compositeLow } = composite;
+  const { high: aggregateHigh, low: aggregateLow } = aggregate;
   const { average: targetAverage } = target;
 
-  return compositeHigh > compositeLow && targetAverage !== 0 // prevent division by zero & negative values
-    ? ((targetAverage - compositeLow) / (compositeHigh - compositeLow)) * 100
+  return aggregateHigh > aggregateLow && targetAverage !== 0 // prevent division by zero & negative values
+    ? ((targetAverage - aggregateLow) / (aggregateHigh - aggregateLow)) * 100
     : 0;
 };

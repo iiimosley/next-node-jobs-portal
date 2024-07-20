@@ -25,9 +25,9 @@ export class ProviderService {
 
   private async computeProviderScores(providers: ProviderWithJobMetrics[]) {
     const {
-      speed: compositeSpeed,
-      cost: compositeCost,
-      rating: compositeRating,
+      speed: speedAggregate,
+      cost: costAggregate,
+      rating: ratingAggregate,
     } = await this.jobMetricsRepository.getLatestJobMetrics();
 
     return providers.map<ProviderWithJobScore>(({metrics, ...provider}) => {
@@ -36,9 +36,9 @@ export class ProviderService {
       return {
         ...provider,
         score: {
-          speed: calculateAverageRangeScore(compositeSpeed, speed),
-          cost: calculateAverageRangeScore(compositeCost, cost),
-          rating: calculateAverageRangeScore(compositeRating, rating),
+          speed: calculateAverageRangeScore(speedAggregate, speed),
+          cost: calculateAverageRangeScore(costAggregate, cost),
+          rating: calculateAverageRangeScore(ratingAggregate, rating),
         },
       };
     });
