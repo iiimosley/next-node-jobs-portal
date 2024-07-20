@@ -25,15 +25,13 @@ export class JobService {
 
   public async getJobById({
     id,
+    includeProviders,
     ...scoreWeight
-  }: GetJobRequest): Promise<JobWithScoredProviders | undefined> {
+  }: GetJobRequest): Promise<Job | undefined> {
     const job = await this.jobRepository.getJobById(id);
     if (job === undefined) return undefined;
 
-    // TODO: Conditionally protect the score calculations
-    //       using bool function argument (from the controller).
-    //       Return job without scores if false.
-    return await this.getJobProviderScores(job, scoreWeight);
+    return includeProviders ? await this.getJobProviderScores(job, scoreWeight) : job;
   }
 
   private async getJobProviderScores(

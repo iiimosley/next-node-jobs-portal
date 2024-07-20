@@ -13,9 +13,10 @@ type JobScoreWeightRequest = {
 
 export const parseGetJobRequest = ({
   params: { id },
-  query: { speed, cost, rating, proximity },
+  query: { includeProviders, speed, cost, rating, proximity },
 }: Request): GetJobRequest => ({
   id: +id,
+  includeProviders: includeProviders === "true" || includeProviders === "1",
   ...parseWeight({ speed, cost, rating, proximity }),
 });
 

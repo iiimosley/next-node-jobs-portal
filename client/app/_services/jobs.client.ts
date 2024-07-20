@@ -15,7 +15,7 @@ class JobsClient {
   }
 
   async getJobById(id: number) {
-    return await this.fetch<Job>(`/jobs/${id}`);
+    return await this.fetch<Job>(`/jobs/${id}?includeProviders=1`);
   }
 
   private async fetch<T>(path: UrlPath) {
