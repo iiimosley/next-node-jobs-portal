@@ -39,7 +39,9 @@ export default async function UpcomingJob({
             ))}
           </List>
         )}
-        <PointBuy title="Adjust attributes for to recalculate provider recommendations" />
+        {process.env.NEXT_PUBLIC_POINT_BUY_ENABLED && (
+          <PointBuy title="Adjust attributes for to recalculate provider recommendations" />
+        )}
       </InlineCenterContainer>
     </div>
   );
