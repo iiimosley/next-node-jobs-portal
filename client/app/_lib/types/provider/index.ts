@@ -1,9 +1,9 @@
-import ProviderScore from "./providerScore";
+import { JobScore } from "./providerScore";
 
 interface JobProvider {
   id: number;
   name: string;
-  score: ProviderScore;
+  score: JobScore;
 }
 
 export default JobProvider;

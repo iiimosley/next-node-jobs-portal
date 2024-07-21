@@ -1,8 +1,7 @@
-interface ProviderScore {
-  proximity: number;
-  speed: number;
-  cost: number;
-  rating: number;
-}
+import { JOB_SCORE_PARAMETERS } from "../../constants/jobScoreParameters";
 
-export default ProviderScore;
+export type JobScoreKey = typeof JOB_SCORE_PARAMETERS[number];
+
+export type JobScore = {
+  [key in JobScoreKey]: number;
+};

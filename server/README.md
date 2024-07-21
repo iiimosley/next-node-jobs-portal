@@ -1,11 +1,6 @@
 # Jobs + Providers API
 Backend Service for serving and computing Job and Provider data
 
-## Doc Todos
-- [ ] **Project Structure:** Diagram with descriptions in each
-- [ ] **Flow of Command and Terminology:** 
-- [ ] **Engines & Algorithms:** Diagram Metrics calculations, state definitions, and weighing system
-
 ## Getting Started
 ### Requirements
 - [**Node (version 20)**](https://nodejs.org/en/download/package-manager) -- runtime environment
