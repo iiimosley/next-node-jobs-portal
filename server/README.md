@@ -65,9 +65,13 @@ sequenceDiagram
     service-->>-controller: response
 ```
 
-### Workflow Relations
+### Workflow Relations and Conventions
+- Controllers, Services, and Repositories are narrowed to the scope of their Domain
+- Controllers will utilize their correlated domain Service for data processing and retrieval
+- Services may utilize other domain Services for evaluating relational data to their domain
+- Services will only access data through their correlated domain Repository
 
-##### Example:
+#### Example ERD:
 ```mermaid
 graph TD;
   subgraph "Controllers"
@@ -109,15 +113,52 @@ graph TD;
     repositoryD  <-->|connects to| noSql
 ```
 
-## Processes
+## Job Score Calculation for Providers
+Job scores for Providers are calculated by the following criterion:
+- **Speed:** How quickly they completed their work
+- **Cost:**  How much they charged in comparison to pages completed
+- **Rating**: How satisfied customers have been with their work
+- **Proximity**: If Location-based, how close they are located to the specified upcoming job
 
-### Weighing Algorithm
-- [ ] Document purpose of algorithm and how score values are computed
-- [ ] Note Point Buying System
+### Calculation Process
+#### Collect Historical Data for Provider
+The following metrics are calculated from the provider's completed job history:
+- **Speed:** Average time between job creation and completion
+- **Cost:**  Average cost per page for all completed jobs
+- **Rating**: Average satisfaction score from their clients
 
-### Engine Structures and Relations
-- [ ] Diagram generic metric, state, and weighing system
+#### Calculate Relative Position to Historical Job Metrics
+For each Provider's Job Score Averages, a percentage score is calculated by the Provider's relative position against all historic job completions. 
 
-### How Providers are Scored
-- [ ] Document scoring specifically for Providers
+- Highest and Lowest values are pulled from all historically Completed Jobs for each Job Performance Metrics (Speed, Cost, Rating)
+- The Provider is then given a percentage score for the metric based on their average score's relative position between the highest and lowest metrics. 
+>E.G., if Provider's Rating === Highest Aggregate Rating, Provider's Percentage score for Rating is 100%
+- Inverses are applied on the averages where the lower positioning is more favorable (Speed, Cost)
+> if Provider's Cost === Highest Aggregate Cost, Provider's Percentage score for Cost is 0%
+
+#### Weighing Recalculations (via Point Buying) 
+After relative position percentage scores are calculated, 
+the Provider's percentage scores are recalculated by the weight adjustment chosen by the Requester. 
+
+Requesters may choose a value be between 1 and 5 for each job score metrics (Speed, Cost, Rating, Proximity):
+
+1. Halves score
+2. Reduces score by 25%
+3. No change.
+4. Increases score by 25%
+5. Increases score by 50%
+
+Percentage score and score weights are normalized to stay within their respective ranges (1-100%, 1-5)
+
+#### RESTful Context - Query Params
+- Query parameters may be set on the `/jobs/:id` request to apply the metric weight adjustment
+- Format: `?speed=4&cost=2` adjusts Speed and Cost scores.
+- No parameters default all scores to neutral (3).
+
+#### Final Job Score, Ranking
+After recalculating scores by the applied weight, the final job score for a Provider is an aggregate averaging all four metrics of Provider's percentage scores.
+
+Once final job scores are calculated, Providers are ranked in descending order of their aggregate percentage scores.
+
+
 
