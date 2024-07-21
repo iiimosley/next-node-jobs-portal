@@ -1,6 +1,6 @@
-const JobStatus = {
+export const JobStatus = {
   COMPLETE: "Complete",
-  "AWAITING MATERIAL": "Awaiting Material",
+  "AWAITING MATERIALS": "Awaiting Material",
   SCHEDULED: "Scheduled",
 } as const;
 

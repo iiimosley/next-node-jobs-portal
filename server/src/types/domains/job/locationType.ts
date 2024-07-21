@@ -1,4 +1,4 @@
-const LocationType = {
+export const LocationType = {
   REMOTE: "Remote",
   LOCATION_BASED: "Location Based",
 } as const;
