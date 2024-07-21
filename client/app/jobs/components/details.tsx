@@ -12,7 +12,10 @@ export default function JobDetails({ job }: { job: Job }) {
   return (
     <List title="Details">
       <JobDetailListItem label="Status" value={job.status} />
-      <JobDetailListItem label="Created" value={job.createdAt} />
+      <JobDetailListItem
+        label="Created"
+        value={new Date(job.createdAt).toLocaleDateString()}
+      />
       <JobDetailListItem label="Location Type" value={job.locationType} />
       <JobDetailListItem label="Latitude" value={job.latitude} />
       <JobDetailListItem label="Longitude" value={job.longitude} />

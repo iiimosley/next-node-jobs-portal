@@ -1,7 +1,11 @@
 import React from "react";
 import Header from "@components/headers/base";
+import InlineCenterContainer from "@components/inlineCenterContainer";
+import List from "@components/list";
 import JobsClient from "@services/jobs.client";
-import JobOverview from "./components/jobOverview";
+import JobDetails from "../../components/details";
+import ProviderDetails from "./components/providerDetails";
+import PointBuy from "./components/pointBuy";
 
 export default async function UpcomingJob({
   params: { id },
@@ -18,7 +22,25 @@ export default async function UpcomingJob({
   return (
     <div>
       <Header title="<- Back to Upcoming Job Listings" href="/jobs/upcoming" />
-      <JobOverview job={job} />
+      <InlineCenterContainer className="mt-8 *:mb-12">
+        <JobDetails job={job} />
+        {job.availableProviders !== undefined && (
+          <List
+            numbered
+            title="Available Providers"
+            subtitle="In order of Estimated Effectiveness"
+          >
+            {job.availableProviders.map((provider, index) => (
+              <ProviderDetails
+                key={`provider-${provider.id}`}
+                provider={provider}
+                ranking={index + 1}
+              />
+            ))}
+          </List>
+        )}
+        <PointBuy title="Adjust attributes for to recalculate provider recommendations" />
+      </InlineCenterContainer>
     </div>
   );
 }

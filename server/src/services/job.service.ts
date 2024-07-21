@@ -49,7 +49,7 @@ export class JobService {
           score: recalculateScoreByWeight(
             {
               ...provider.score,
-              proximity: this.calculateProximityScore(job, provider),
+              proximity: this.calculateProximityScore(job, provider), // TODO: Remove Proximity from weighing if job is REMOTE
             },
             scoreWeight
           ),
