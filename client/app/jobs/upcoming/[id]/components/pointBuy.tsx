@@ -1,26 +1,41 @@
 "use client";
 
-import React from "react";
+import React, { use, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import useJobScore from "@hooks/useJobScore";
-import {
-  MAX_POINTS,
-  MIN_POINTS,
-} from "@lib/constants/pointSystem";
+import { MAX_POINTS, MIN_POINTS } from "@lib/constants/pointSystem";
+import { JOB_SCORE_PARAMETERS } from "@lib/constants/jobScoreParameters";
+import { JobScore, JobScoreKey } from "@lib/types/provider/providerScore";
+import { parseNumeric } from "@lib/utils/parseNumeric";
+import { normalizeToRange } from "@lib/utils/normalizeToRange";
 
 export default function PointBuy({
   title,
-  attributes,
 }: {
-  title: string,
-  attributes: string[];
-  limit?: number;
+  title: string;
 }) {
-  const [jobScore, updateJobScore] = useJobScore();
-  
+  const [jobScore, setJobScore] = useJobScore();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    setJobScore(
+      Object.fromEntries(
+        JOB_SCORE_PARAMETERS.map((parameter: JobScoreKey) => [
+          parameter,
+          normalizeToRange(
+            parseNumeric(searchParams.get(parameter)) || jobScore[parameter],
+            MIN_POINTS,
+            MAX_POINTS
+          ),
+        ])
+      ) as JobScore
+    );
+  }, [searchParams]);
+
   const onSlide = ({
     target: { name, value },
   }: React.ChangeEvent<HTMLInputElement>) => {
-    updateJobScore({
+    setJobScore({
       [name]: parseInt(value),
     });
   };
