@@ -23,7 +23,9 @@
     - Run application in dev-mode: `npm run dev`
 
 #### 🐳 &nbsp;  Docker
-> Docker Compose WIP
+1. On `client`, setup you base `.env.local` file: `cp ./client/.env.example ./client/env.local`
+1. Build out your images: `docker-compose build`
+1. Run the containers: `docker-compose up`
 
 ## App-specific Documentation
 🌐 **Frontend** (`client`; Next.js + React): [`./client/README.md`](client/README.md)

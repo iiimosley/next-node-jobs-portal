@@ -6,8 +6,7 @@ class JobsClient {
   private baseUrl: string;
 
   constructor() {
-    // TODO: Set to environment variable
-    this.baseUrl = "http://localhost:5000";
+    this.baseUrl = process.env.JOBS_API_URL || "http://localhost:5000";
   }
 
   async getUpcomingJobs() {
