@@ -4,7 +4,7 @@ Implement a basic web application which will list all upcoming jobs that still n
 ## Instructions
 Please fulfill the requirements below. Let us know when you're done and open a PR for review.
 
-We ask that you use technologies that are in line with Steno's current stack. This includes: 
+Tech Stack:
   - [X] Typescript
   - [X] Node.js for the runtime
   - [X] React for frontend

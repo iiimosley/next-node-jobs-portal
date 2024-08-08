@@ -1,6 +1,6 @@
-# Take Home Assignment - Steno
+# Jobs Portal
 **Author:** Trey Mosley<br>
-**Description**: Server & Client Applications serving  Upcoming Jobs <br>
+**Description**: Server & Client Applications serving Upcoming Jobs <br>
 **Requirements:** _See_ [`requirements.md`](requirements.md)
 
 | Technologies |  |
