@@ -1,0 +1,1 @@
+export type PlainSearchParams = { [key: string]: string | string[] | undefined };

@@ -1,6 +1,7 @@
 import Job from "@lib/types/job";
 import UpcomingJob from "@lib/types/job/upcomingJob";
 import UrlPath from "@lib/types/urlPath";
+import { JobScore } from "@lib/types/provider/providerScore";
 
 class JobsClient {
   private baseUrl: string;
@@ -13,8 +14,12 @@ class JobsClient {
     return await this.fetch<UpcomingJob[]>("/jobs/upcoming");
   }
 
-  async getJobById(id: number) {
-    return await this.fetch<Job>(`/jobs/${id}?includeProviders=1`);
+  async getJobById(id: number, scores?: Partial<JobScore>) {
+    const search = this.buildJobFindQueryParams(scores);
+
+    console.log(`Fetching Job #${id} with the following params`, search);
+
+    return await this.fetch<Job>(`/jobs/${id}?${search}`);
   }
 
   private async fetch<T>(path: UrlPath) {
@@ -28,6 +33,15 @@ class JobsClient {
 
     return response.json() as Promise<T>;
   }
+
+  private buildJobFindQueryParams = (scores?: Partial<JobScore>) =>
+    new URLSearchParams({
+      includeProviders: "1",
+      ...(scores &&
+        Object.fromEntries(
+          Object.entries(scores).map(([key, value]) => [key, value?.toString()])
+        )),
+    });
 }
 
 export default JobsClient;

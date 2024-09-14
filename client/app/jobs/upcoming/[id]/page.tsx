@@ -2,6 +2,11 @@ import React from "react";
 import Header from "@components/headers/base";
 import InlineCenterContainer from "@components/inlineCenterContainer";
 import List from "@components/list";
+import {
+  parseJobScoreFromSearchParams,
+  parseJobScoreDefaults,
+} from "@lib/utils/parseJobScore";
+import { PlainSearchParams } from "@lib/types/plainSearchParams";
 import JobsClient from "@services/jobs.client";
 import JobDetails from "../../components/details";
 import ProviderDetails from "./components/providerDetails";
@@ -9,15 +14,21 @@ import PointBuy from "./components/pointBuy";
 
 export default async function UpcomingJob({
   params: { id },
+  searchParams,
 }: {
   params: { id: string };
+  searchParams: PlainSearchParams;
 }) {
   const jobId = parseInt(id, 10);
   if (isNaN(jobId)) return null;
 
+  const jobScoreParams = parseJobScoreFromSearchParams(searchParams);
+
   const jobsClient = new JobsClient();
-  const job = await jobsClient.getJobById(jobId);
+  const job = await jobsClient.getJobById(jobId, jobScoreParams);
   if (job === undefined) return null;
+
+  const jobScore = parseJobScoreDefaults(jobScoreParams);
 
   return (
     <div>
@@ -40,7 +51,10 @@ export default async function UpcomingJob({
           </List>
         )}
         {process.env.NEXT_PUBLIC_POINT_BUY_ENABLED && (
-          <PointBuy title="Adjust attributes for to recalculate provider recommendations" />
+          <PointBuy
+            title="Adjust attributes for to recalculate provider recommendations"
+            jobScore={jobScore}
+          />
         )}
       </InlineCenterContainer>
     </div>

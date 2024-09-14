@@ -1,43 +1,28 @@
 "use client";
 
-import React, { use, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import useJobScore from "@hooks/useJobScore";
+import React from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { MAX_POINTS, MIN_POINTS } from "@lib/constants/pointSystem";
-import { JOB_SCORE_PARAMETERS } from "@lib/constants/jobScoreParameters";
-import { JobScore, JobScoreKey } from "@lib/types/provider/providerScore";
-import { parseNumeric } from "@lib/utils/parseNumeric";
-import { normalizeToRange } from "@lib/utils/normalizeToRange";
+import { JobScore } from "@lib/types/provider/providerScore";
 
 export default function PointBuy({
   title,
+  jobScore,
 }: {
   title: string;
+  jobScore: JobScore;
 }) {
-  const [jobScore, setJobScore] = useJobScore();
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-
-  useEffect(() => {
-    setJobScore(
-      Object.fromEntries(
-        JOB_SCORE_PARAMETERS.map((parameter: JobScoreKey) => [
-          parameter,
-          normalizeToRange(
-            parseNumeric(searchParams.get(parameter)) || jobScore[parameter],
-            MIN_POINTS,
-            MAX_POINTS
-          ),
-        ])
-      ) as JobScore
-    );
-  }, [searchParams]);
 
   const onSlide = ({
     target: { name, value },
   }: React.ChangeEvent<HTMLInputElement>) => {
-    setJobScore({
-      [name]: parseInt(value),
-    });
+    const params = new URLSearchParams(searchParams.toString());
+    params.set(name, value);
+
+    router.push(pathname + "?" + params.toString(), { scroll: false });
   };
 
   return (
