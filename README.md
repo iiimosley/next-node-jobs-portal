@@ -1,7 +1,5 @@
 # Jobs Portal
-**Author:** Trey Mosley<br>
-**Description**: Server & Client Applications serving Upcoming Jobs <br>
-**Requirements:** _See_ [`requirements.md`](requirements.md)
+Example Project for using Next.js as an SSR Client Application, hydrated by a Node.js Domain Service.
 
 | Technologies |  |
 | - | - |
